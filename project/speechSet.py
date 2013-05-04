@@ -4,9 +4,9 @@ import operator
 import glob
 
 class SpeechSet(object):
-    def __init__(self,directoryPath):
+    def __init__(self,directoryPath,fileType="*.txt"):
         self.wordUsage = {}
-        filelist = glob.glob(directoryPath+"/*.txt")
+        filelist = glob.glob(directoryPath+"/"+fileType)
         for filename in filelist:
             self.parseFile(filename)
     def parseFile(self, filename):
