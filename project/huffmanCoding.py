@@ -66,7 +66,7 @@ class huffmanCodingTree(object):
         self.root = nodesList[0]
         self.maxBits = 0
         self.findMaxBits(self.root)
-        print "maxbits:"+str(self.maxBits)
+        #print "maxbits:"+str(self.maxBits)
         self.treeCoding(self.root)
     def findMaxBits(self,node,level = 0):
         if(node):
@@ -87,7 +87,20 @@ class huffmanCodingTree(object):
                 node.bits = level
             self.treeCoding(level = level+1,node = node.right,isRight = True,parentCode = node.code)
             self.treeCoding(level = level+1,node = node.left,parentCode = node.code)
-
+    def findNode(self, word):
+        return self.findNodeImp(word = word,node = self.root)
+    def findNodeImp(self, word, node):
+        if(node):
+            if(node.data[0] == word):
+                return node
+            else:
+                left = self.findNodeImp(word,node = node.left)
+                if(left):
+                    return left
+                right = self.findNodeImp(word,node = node.right)
+                return right
+        else:
+            return None
 
 if(__name__ == "__main__"):
     

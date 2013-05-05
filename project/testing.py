@@ -58,10 +58,32 @@ class Testing(unittest.TestCase):
         file1Frequency= {'second':2,'has':3,'a':2,'few':2,'more':3,'words':2,'writing':3,
                                'complete':2,'test':5,'file':1}
         testCoding = huffmanCoding.huffmanCodingTree(file1Frequency)
-        testCoding.printCodingTree(testCoding.root)
+        #testCoding.printCodingTree(testCoding.root)
         self.assertEqual(testCoding.root.data[0],None)
         self.assertEqual(testCoding.root.right.right.data[0],"test")
+        self.assertEqual(testCoding.root.left.left.right.left.data[0],"a")
+    def testCodingBits(self):
+        file1Frequency= {'second':2,'has':3,'a':2,'few':2,'more':3,'words':2,'writing':3,
+                               'complete':2,'test':5,'file':1}
+        testCoding = huffmanCoding.huffmanCodingTree(file1Frequency)
+        self.assertEqual(testCoding.maxBits,4)
+    def testCodingCode(self):
+        file1Frequency= {'second':2,'has':3,'a':2,'few':2,'more':3,'words':2,'writing':3,
+                               'complete':2,'test':5,'file':1}
+        testCoding = huffmanCoding.huffmanCodingTree(file1Frequency)
+        self.assertEqual(testCoding.findNode("complete").bits,4)
+        self.assertEqual(testCoding.findNode("more").bits,3)
+        self.assertEqual(testCoding.findNode("has").bits,3)
+        self.assertEqual(testCoding.findNode("test").bits,2)
+        self.assertEqual(testCoding.findNode("second").bits,4)
         self.assertEqual(testCoding.root.code,0)
+    def testCodingFindNode(self):
+        file1Frequency= {'second':2,'has':3,'a':2,'few':2,'more':3,'words':2,'writing':3,
+                               'complete':2,'test':5,'file':1}
+        testCoding = huffmanCoding.huffmanCodingTree(file1Frequency)
+        self.assertEqual(testCoding.findNode("has").data[0],"has")
+        self.assertEqual(testCoding.findNode("words").data[0],"words")
+        self.assertEqual(testCoding.findNode("file").data[0],"file")
         
 
 
