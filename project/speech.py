@@ -1,10 +1,12 @@
 import sys
 import re
 import operator
-
+import itertools
 class Speech(object):
-    def __init__(self, filename):
-        self.wordUsage = {}
+    def __init__(self, filename,wordUsage0=None):
+        if(wordUsage0==None):
+            wordUsage0 = {}
+        self.wordUsage = wordUsage0
         self.parseFileAndCountWordUsage(filename)
     def parseFileAndCountWordUsage(self, filename):
         file = open(filename)
@@ -16,7 +18,9 @@ class Speech(object):
                 else:
                     self.wordUsage[cleanedWord] = 1
     def printStatistics(self):
-        print max(self.wordUsage.iteritems(),key = operator.itemgetter(1))[0]
+        print "Top 5 words:"
+        for word in sorted(self.wordUsage.iteritems(),key = operator.itemgetter(1),reverse=True)[:5]:
+            print word
     #def compareWordUsage(self, otherSpeech):
     #    print "compare speeches"
 
