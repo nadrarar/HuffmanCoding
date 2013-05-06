@@ -102,6 +102,8 @@ class huffmanCodingTree(object):
                 return right
         else:
             return None
+    def bitsNeededForCoding(self,word):
+        return bitsNeededDictionary[word]
     def findBitsNeededDictionary(self,node):
         if(node):
             if(node.data[0]):
