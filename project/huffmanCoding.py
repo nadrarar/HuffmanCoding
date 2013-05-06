@@ -27,6 +27,7 @@ class huffmanCodingTree(object):
     def __init__(self,dict):
         dictionaryList = sorted(dict.iteritems(),key = operator.itemgetter(1),reverse=True)
         nodesList = []
+        self.bitsNeededDictionary = {}
         for i in dictionaryList:
             node = treeNode(data = i)
             nodesList.append(node)
@@ -101,6 +102,16 @@ class huffmanCodingTree(object):
                 return right
         else:
             return None
+    def findBitsNeededDictionary(self,node):
+        if(node):
+            if(node.data[0]):
+                self.bitsNeededDictionary[node.data[0]] = node.bits
+            else:
+                if(node.left):
+                    self.findBitsNeededDictionary(node.left)
+                if(node.right):
+                    self.findBitsNeededDictionary(node.right)
+
 
 if(__name__ == "__main__"):
     
