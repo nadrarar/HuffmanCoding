@@ -3,7 +3,8 @@ import re
 import operator
 import glob
 import speech
-
+import huffmanCoding
+import math
 class SpeechSet(object):
     def __init__(self,directoryPath,fileType="*.txt"):
         self.directoryPath = directoryPath
@@ -18,7 +19,19 @@ class SpeechSet(object):
             for word in line.split():
                 cleanedWord = re.sub(r"[.,\"!?]",'',word).lower()
                 self.wordUsage[cleanedWord] = 1
-
+    def compressionRatio(self,speechWithCoding, speechThatIsCompared):
+        tree = huffmanCoding.huffmanCodingTree(speechWithCoding.wordUsage)
+        #tree.printCodingTree(tree.root)
+        bitsInBlockCoding = 0
+        bitsInHuffmanCoding = 0
+        for entry in speechThatIsCompared.wordUsage.iteritems():
+            bitsInBlockCoding += int(math.ceil(math.log(speechThatIsCompared.wordUsage.__len__(),2)))
+            bitsInHuffmanCoding += int(tree.findNode(entry[0]).bits)
+            #print entry[0]+", "+str(bitsInBlockCoding)+", "+str(bitsInHuffmanCoding)
+        if(bitsInBlockCoding > 0):
+            return float(bitsInHuffmanCoding)/float(bitsInBlockCoding)
+        else:
+            return 0
 if __name__ == "__main__":
     if(len(sys.argv) == 2):
         set = SpeechSet(sys.argv[1])

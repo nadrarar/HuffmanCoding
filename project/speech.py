@@ -6,7 +6,7 @@ class Speech(object):
     def __init__(self, filename,wordUsage0=None):
         if(wordUsage0==None):
             wordUsage0 = {}
-        self.wordUsage = wordUsage0
+        self.wordUsage = wordUsage0.copy()
         self.parseFileAndCountWordUsage(filename)
     def parseFileAndCountWordUsage(self, filename):
         file = open(filename)
