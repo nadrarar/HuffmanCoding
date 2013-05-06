@@ -19,15 +19,20 @@ class SpeechSet(object):
             for word in line.split():
                 cleanedWord = re.sub(r"[.,\"!?]",'',word).lower()
                 self.wordUsage[cleanedWord] = 1
-    def compressionRatio(self,speechWithCoding, speechThatIsCompared):
-        tree = huffmanCoding.huffmanCodingTree(speechWithCoding.wordUsage)
-        #tree.printCodingTree(tree.root)
-        bitsInBlockCoding = 0
+    def compressionRatio(self,speechWithCoding, speechThatIsCompared,tree = None):
+        wordInstanceCode = speechWithCoding
+        wordInstanceCompare = speechThatIsCompared
+        if(isinstance(speechWithCoding,speech.Speech)):
+           wordInstanceCode = speechWithCoding.wordUsage
+        if(isinstance(speechThatIsCompared,speech.Speech)):
+           wordInstanceCompare = speechThatIsCompared.wordUsage
+        if(tree == None):
+            tree = huffmanCoding.huffmanCodingTree(wordInstanceCode)
+        bitsInBlockCoding = int(math.ceil(math.log(wordInstanceCompare.__len__(),2)))*wordInstanceCompare.__len__()
         bitsInHuffmanCoding = 0
-        for entry in speechThatIsCompared.wordUsage.iteritems():
-            bitsInBlockCoding += int(math.ceil(math.log(speechThatIsCompared.wordUsage.__len__(),2)))
+        for entry in wordInstanceCompare.iteritems():
             bitsInHuffmanCoding += int(tree.findNode(entry[0]).bits)
-            #print entry[0]+", "+str(bitsInBlockCoding)+", "+str(bitsInHuffmanCoding)
+            #print entry[0]+", "+str(bitsInHuffmanCoding)+", "+str(bitsInBlockCoding)
         if(bitsInBlockCoding > 0):
             return float(bitsInHuffmanCoding)/float(bitsInBlockCoding)
         else:

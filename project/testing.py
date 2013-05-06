@@ -108,5 +108,18 @@ class Testing(unittest.TestCase):
         self.assertEqual(speech1.wordUsage,file1Frequency)
         cRatio = self.speechSet.compressionRatio(speech1,speech0)
         self.assertEqual(cRatio,35/40.00)
+    def testCompressionRatioWordUsage(self):
+        file0Frequency= {'second':1,'has':1,'a':1,'few':1,'more':1,'words':1,'writing':3,
+                        'complete':2,'test':4,'file':5}
+        file1Frequency= {'second':2,'has':3,'a':2,'few':2,'more':3,'words':2,'writing':3,
+                        'complete':2,'test':5,'file':1}
+        self.assertEqual(self.speechSet.wordUsage.__len__(),file0Frequency.__len__())
+        self.assertEqual(self.speechSet.wordUsage.__len__(),file1Frequency.__len__())
+        speech0 = speech.Speech(self.file0.name,self.speechSet.wordUsage)
+        speech1 = speech.Speech(self.file1.name,self.speechSet.wordUsage)
+        self.assertEqual(speech0.wordUsage,file0Frequency)
+        self.assertEqual(speech1.wordUsage,file1Frequency)
+        cRatio = self.speechSet.compressionRatio(speech1.wordUsage,speech0.wordUsage)
+        self.assertEqual(cRatio,35/40.00)
 if __name__ == "__main__":
     unittest.main()
