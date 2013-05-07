@@ -5,10 +5,14 @@ import math
 import glob
 import huffmanCoding
 import time
+import numpy
+import matplotlib
+
 if(__name__ == "__main__"):
     if(len(sys.argv) == 2):
         print "finding speech set"
         set = speechSet.SpeechSet(sys.argv[1])
+        
         print "finding all filenames"
         listRecentFilenames = sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)
         mostRecentFilename = listRecentFilenames[0]#sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)[0]
@@ -25,9 +29,11 @@ if(__name__ == "__main__"):
         #increase speed by making a dictionary that stores the number of bits needed to code
         #every key, and use that for compressionRatio
         print "finding compression ratio"
+        file = open("mostRecentSpeech.txt","w+")
         for filename in listRecentFilenames:
             nthMostRecentSpeech = speech.Speech(filename,wordUsage)
-            print filename
-            print "    " + str(set.compressionRatio(wordUsage,nthMostRecentSpeech.wordUsage,tree = tree))
+            file.write(filename+" "+str(set.compressionRatio(wordUsage,nthMostRecentSpeech.wordUsage,tree = tree))+'\n')
+            #print filename
+            #print "    " + str(set.compressionRatio(wordUsage,nthMostRecentSpeech.wordUsage,tree = tree))
     else:
         print "error, did not give name for directory"

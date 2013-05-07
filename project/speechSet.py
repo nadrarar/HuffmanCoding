@@ -35,7 +35,7 @@ class SpeechSet(object):
         for entry in wordInstanceCompare.iteritems():
             bitsInHuffmanCoding += entry[1]*tree.bitsNeededDictionary[entry[0]]
             bitsInBlockCoding += entry[1]*blockCodeIncrement
-            print entry[0]+", "+str(bitsInHuffmanCoding)+", "+str(bitsInBlockCoding)
+            #print entry[0]+", "+str(bitsInHuffmanCoding)+", "+str(bitsInBlockCoding)
         if(bitsInBlockCoding > 0):
             return float(bitsInHuffmanCoding)/float(bitsInBlockCoding)
         else:
