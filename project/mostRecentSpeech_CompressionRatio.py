@@ -14,14 +14,13 @@ if(__name__ == "__main__"):
         mostRecentFilename = listRecentFilenames[0]#sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)[0]
         wordUsage = set.wordUsage
         print "finding word usage"
-        for n in range(100):
+        for n in range(1):
             #print listRecentFilenames[n]
             nthMostRecentSpeech = speech.Speech(listRecentFilenames[n],wordUsage)
             #print nthMostRecentSpeech.printStatistics()
             wordUsage = nthMostRecentSpeech.wordUsage
         print "start finding coding tree "+str(time.clock())
         tree = huffmanCoding.huffmanCodingTree(wordUsage)
-        codingBitsNeeded = tree.bitsNeededToCode()
         print "completed finding coding tree "+str(time.clock())
         #increase speed by making a dictionary that stores the number of bits needed to code
         #every key, and use that for compressionRatio

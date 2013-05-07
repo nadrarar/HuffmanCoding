@@ -27,7 +27,6 @@ class huffmanCodingTree(object):
     def __init__(self,dict):
         dictionaryList = sorted(dict.iteritems(),key = operator.itemgetter(1),reverse=True)
         nodesList = []
-        self.bitsNeededDictionary = {}
         for i in dictionaryList:
             node = treeNode(data = i)
             nodesList.append(node)
@@ -69,6 +68,8 @@ class huffmanCodingTree(object):
         self.findMaxBits(self.root)
         #print "maxbits:"+str(self.maxBits)
         self.treeCoding(self.root)
+        self.bitsNeededDictionary = {}
+        self.findBitsNeededDictionary(self.root)
     def findMaxBits(self,node,level = 0):
         if(node):
             if(self.maxBits < level):

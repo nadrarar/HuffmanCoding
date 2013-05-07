@@ -27,12 +27,14 @@ class SpeechSet(object):
         if(isinstance(speechThatIsCompared,speech.Speech)):
            wordInstanceCompare = speechThatIsCompared.wordUsage
         if(tree == None):
-            print "there was no tree given:  making a new tree is slow"
+            #print "there was no tree given:  making a new tree is slow"
             tree = huffmanCoding.huffmanCodingTree(wordInstanceCode)
-        bitsInBlockCoding = int(math.ceil(math.log(wordInstanceCompare.__len__(),2)))*wordInstanceCompare.__len__()
+        bitsInBlockCoding = 0#int(math.ceil(math.log(wordInstanceCompare.__len__(),2)))*wordInstanceCompare.__len__()
+        blockCodeIncrement = int(math.ceil(math.log(wordInstanceCompare.__len__(),2)))
         bitsInHuffmanCoding = 0
         for entry in wordInstanceCompare.iteritems():
-            bitsInHuffmanCoding += int(tree.findNode(entry[0]).bits)
+            bitsInHuffmanCoding += entry[1]*tree.bitsNeededDictionary[entry[0]]
+            bitsInBlockCoding += entry[1]*blockCodeIncrement
             print entry[0]+", "+str(bitsInHuffmanCoding)+", "+str(bitsInBlockCoding)
         if(bitsInBlockCoding > 0):
             return float(bitsInHuffmanCoding)/float(bitsInBlockCoding)
