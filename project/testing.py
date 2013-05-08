@@ -104,6 +104,8 @@ class Testing(unittest.TestCase):
         self.assertEqual(testCoding.bitsNeededDictionary['words'],4)
         self.assertEqual(testCoding.bitsNeededDictionary['writing'],3)
         self.assertEqual(testCoding.bitsNeededDictionary['test'],2)
-
+    #def testCompressionRatioSet0(self):
+    #    testCoding = huffmanCoding.huffmanCodingTree(self.file0And1Frequency)
+    #    self.assertEqual(
 if __name__ == "__main__":
     unittest.main()
