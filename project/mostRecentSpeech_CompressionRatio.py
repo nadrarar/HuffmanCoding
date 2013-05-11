@@ -8,6 +8,7 @@ import time
 import numpy
 import matplotlib
 import operator
+
 def determineWordUsage(startingWordUsage,totalSpeeches):
     wordUsage = startingWordUsage.copy()
     for n in range(totalSpeeches):
@@ -28,9 +29,12 @@ if(__name__ == "__main__"):
             listRecentFilenames = sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)
         print "finding word usage"
         wordUsage = determineWordUsage(set.wordUsage,int(sys.argv[2]))
-        print sorted(wordUsage.iteritems(),key = operator.itemgetter(1))
+        #print sorted(wordUsage.iteritems(),key = operator.itemgetter(1))
         print "start finding coding tree "+str(time.clock())
         tree = huffmanCoding.huffmanCodingTree(wordUsage)
+        #print "bit the "+ str(tree.bitsNeededDictionary["the"])
+        #print "bit a " + str(tree.bitsNeededDictionary["a"])
+        #print "bit for " + str(tree.bitsNeededDictionary["for"])
         print "completed finding coding tree "+str(time.clock())
         print "finding compression ratio"
         file = open(sys.argv[3],"w+")

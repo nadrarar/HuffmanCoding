@@ -3,7 +3,8 @@ import speechSet
 import operator
 import math
 import re
-
+import Queue
+import copy
 class treeNode(object):
     
     def __init__(self, left = None,right = None, data = None, code = None):
@@ -26,27 +27,31 @@ class huffmanCodingTree(object):
 
     def __init__(self,dict):
         dictionaryList = sorted(dict.iteritems(),key = operator.itemgetter(1),reverse=True)
-        nodesList = []
+        #nodesList = []
+        nodesList = Queue.PriorityQueue()
         for i in dictionaryList:
             node = treeNode(data = i)
-            nodesList.append(node)
-        """#used to debug
-        print "iteration for tree"
-        for n in nodesList:
-            print "  "+str(n.data)
+            nodesList.put(tuple([node.data[1],node]))
+        #used to debug
         """
-        while len(nodesList)>1:
-            smallNode0 = nodesList.pop()
-            smallNode1 = nodesList.pop()
+        print "iteration for tree"
+        nodesListCopy = Queue.PriorityQueue()
+        for n in range(nodesList.qsize()):
+            qn = nodesList.get()
+            print "  "+str(qn[1].data)
+            nodesListCopy.put(qn)
+        nodesList = nodesListCopy
+        """
+        while nodesList.qsize()>1:
+            smallNode0 = nodesList.get()[1]
+            smallNode1 = nodesList.get()[1]
             node = treeNode(left = smallNode1,right = smallNode0)
             node.data = [None,int(smallNode0.data[1])+int(smallNode1.data[1])]
             #just add and then resort.  not sure how fast python can sort almost sorted list
             #but it's probably slower than the other version
-            #nodesList.append(node)
-            #nodesList.sort(key = lambda m:m.data[1],reverse = True)
-            
+            nodesList.put(tuple([node.data[1],node]))
             #faster than doing a sort for every iteration
-            addNode = False
+            """addNode = False
             for m in range(len(nodesList)-1,-1,-1):
                 if(nodesList[m].data[1] >= node.data[1]):
                     nodesList.insert(m+1,node)
@@ -54,16 +59,17 @@ class huffmanCodingTree(object):
                     break
             if(addNode==False):
                 nodesList.insert(0,node)
-            """#used for debugging
-            print "iteration for tree"
-            for n in nodesList:
-                print "  "+str(n.data)
-                if(n.left):
-                    print "    "+str(n.left.data)
-                if(n.right):
-                    print "    "+str(n.right.data)
             """
-        self.root = nodesList[0]
+            #used for debugging
+            """print "trees"
+            nodesListCopy = Queue.PriorityQueue()
+            for n in range(nodesList.qsize()):
+                qn = nodesList.get()
+                print "  "+str(qn[1].data)
+                nodesListCopy.put(qn)
+            nodesList = nodesListCopy
+            """
+        self.root = nodesList.get()[1]
         self.maxBits = 0
         self.findMaxBits(self.root)
         #print "maxbits:"+str(self.maxBits)
