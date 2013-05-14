@@ -7,11 +7,13 @@ class Speech(object):
         if(wordUsage0==None):
             wordUsage0 = {}
         self.wordUsage = wordUsage0.copy()
+        self.wordCount = 0
         self.parseFileAndCountWordUsage(filename)
     def parseFileAndCountWordUsage(self, filename):
         file = open(filename)
         for line in file:
             for word in line.split():
+                self.wordCount += 1
                 cleanedWord = re.sub(r"[.,\"!?]",'',word).lower()
                 if self.wordUsage.has_key(cleanedWord):
                     self.wordUsage[cleanedWord] = self.wordUsage[cleanedWord]+1

@@ -17,13 +17,16 @@ def determineWordUsage(startingWordUsage,totalSpeeches):
         #print nthMostRecentSpeech.printStatistics()
         wordUsage= nthMostRecentSpeech.wordUsage
     return wordUsage
+
 if(__name__ == "__main__"):
-    if((len(sys.argv) == 4) or (len(sys.argv) == 5)):
+    if(len(sys.argv) >= 3):
         print "finding speech set"
         set = speechSet.SpeechSet(sys.argv[1])
-        
+        reverse = False
+        if(len(sys.argv) == 4):
+            reverse = True
         print "finding all filenames"
-        if len(sys.argv) == 5:
+        if(reverse):#note that reversing the list puts it in chronological non-reverse
             listRecentFilenames = sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = False)
         else:
             listRecentFilenames = sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)
@@ -36,11 +39,18 @@ if(__name__ == "__main__"):
         #print "bit a " + str(tree.bitsNeededDictionary["a"])
         #print "bit for " + str(tree.bitsNeededDictionary["for"])
         print "completed finding coding tree "+str(time.clock())
-        print "finding compression ratio"
-        file = open(sys.argv[3],"w+")
+        file = None
+        fileForWordCount = open("WordCount.txt","w+")
+        if(reverse):
+            file = open(sys.argv[2]+"LeastRecentSpeech.txt","w+")
+        else:
+            file = open(sys.argv[2]+"MostRecentSpeech.txt","w+")
+        print "starting compression ratio, "+str(time.clock())
         for filename in listRecentFilenames:
             nthMostRecentSpeech = speech.Speech(filename,wordUsage)
             file.write(filename+" "+str(set.compressionRatio(wordUsage,nthMostRecentSpeech.wordUsage,tree = tree))+'\n')
+            fileForWordCount.write(filename+" "+str(nthMostRecentSpeech.wordCount)+'\n')
+        print "completed compression ratio, "+str(time.clock())
             #print "    " + str(set.compressionRatio(wordUsage,nthMostRecentSpeech.wordUsage,tree = tree))
     else:
         print "error, did not give name for directory"
