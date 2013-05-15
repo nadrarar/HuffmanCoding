@@ -32,9 +32,12 @@ if(__name__ == "__main__"):
             listRecentFilenames = sorted(glob.glob(set.directoryPath+"/"+set.fileType),reverse = True)
         print "finding word usage"
         wordUsage = determineWordUsage(set.wordUsage,int(sys.argv[2]))
-        #print sorted(wordUsage.iteritems(),key = operator.itemgetter(1))
+        wordsSorted = sorted(wordUsage.iteritems(),key = operator.itemgetter(1))
         print "start finding coding tree "+str(time.clock())
         tree = huffmanCoding.huffmanCodingTree(wordUsage)
+        print "bits of the longest codeword:"+str(wordsSorted[0])+", "+str(tree.bitsNeededDictionary[wordsSorted[0][0]])
+        print "bits of the shortest codeword:"+str(wordsSorted[len(wordsSorted)-1])+", "+str(tree.bitsNeededDictionary[wordsSorted[len(wordsSorted)-1][0]])
+
         #print "bit the "+ str(tree.bitsNeededDictionary["the"])
         #print "bit a " + str(tree.bitsNeededDictionary["a"])
         #print "bit for " + str(tree.bitsNeededDictionary["for"])

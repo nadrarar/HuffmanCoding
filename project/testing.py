@@ -82,18 +82,18 @@ class Testing(unittest.TestCase):
         speech1 = speech.Speech(self.file1.name,self.speechSet.wordUsage)
         testCoding = huffmanCoding.huffmanCodingTree(self.file0Frequency)
         cRatio = self.speechSet.compressionRatio(speech0,speech1,testCoding)
-        self.assertEqual(cRatio,88/100.0)
+        self.assertEqual(cRatio,53/60.0)
     def testCompressionRatio1(self):
         speech0 = speech.Speech(self.file0.name,self.speechSet.wordUsage)
         speech1 = speech.Speech(self.file1.name,self.speechSet.wordUsage)
         testCoding = huffmanCoding.huffmanCodingTree(self.file1Frequency)
         cRatio = self.speechSet.compressionRatio(speech1,speech0,testCoding)
-        self.assertEqual(cRatio,67/80.0)
+        self.assertEqual(cRatio,32/40.0)
     def testCompressionRatioWordUsage(self):
         speech0 = speech.Speech(self.file0.name,self.speechSet.wordUsage)
         speech1 = speech.Speech(self.file1.name,self.speechSet.wordUsage)
         cRatio = self.speechSet.compressionRatio(speech1.wordUsage,speech0.wordUsage)
-        self.assertEqual(cRatio,67/80.0)
+        self.assertEqual(cRatio,32/40.0)
     def testBitsNeededDictionary0(self):
         testCoding = huffmanCoding.huffmanCodingTree(self.file0Frequency)
         #testCoding.printCodingTree(testCoding.root)

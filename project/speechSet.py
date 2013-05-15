@@ -22,24 +22,26 @@ class SpeechSet(object):
             for word in line.split():
                 cleanedWord = re.sub(r"[.,\"!?]",'',word).lower()
                 self.wordUsage[cleanedWord] = 1
-    def compressionRatio(self,speechWithCoding, speechThatIsCompared,tree = None):
-        wordInstanceCode = speechWithCoding
-        wordInstanceCompare = speechThatIsCompared
-        if(isinstance(speechWithCoding,speech.Speech)):
-           wordInstanceCode = speechWithCoding.wordUsage
-        if(isinstance(speechThatIsCompared,speech.Speech)):
-           wordInstanceCompare = speechThatIsCompared.wordUsage
+    def compressionRatio(self,encodingWordUsage, compressionUsage,tree = None):
+        # the first two arguments can either be speeches or dictionaries with words and frequencies
+        if(isinstance(encodingWordUsage,speech.Speech)):
+           encodingWordUsage = encodingWordUsage.wordUsage
+        if(isinstance(compressionUsage,speech.Speech)):
+           compressionUsage = compressionUsage.wordUsage
+        #tree can be provided, to help performance, otherwise make a tree
         if(tree == None):
-            #print "there was no tree given:  making a new tree is slow"
-            tree = huffmanCoding.huffmanCodingTree(wordInstanceCode)
+            tree = huffmanCoding.huffmanCodingTree(encodingWordUsage)
         wordCount = 0 
         bitsInHuffmanCoding = 0
-        for entry in wordInstanceCompare.iteritems():#note, don't use the additive smoothing for finding ratio
+        #note, don't use the additive smoothing for finding ratio
+        for entry in compressionUsage.iteritems():
+            #bits needed dictionary has the number of bits that each node of tree would encode.  This could
+            #be found using tree.findNode(), but looking things up in the tree took a long time, relative
+            #to the number of times that it has to be done.
             bitsInHuffmanCoding += (entry[1]-1)*tree.bitsNeededDictionary[entry[0]]
             wordCount += entry[1] - 1
-            #print entry[0]+", "+str(entry[1])+", "+str(tree.bitsNeededDictionary[entry[0]])+", "+str(bitsInHuffmanCoding)+", "+str(wordCount)
-        bitsInBlockCoding = wordCount*int(math.ceil(math.log(len(wordInstanceCompare),2)))
-        #print int(math.ceil(math.log(len(wordInstanceCompare),2)))
+        bitsInBlockCoding = wordCount*int(math.ceil(math.log(len(compressionUsage),2)))
+        #for debugging
         #print "huffmanCoding = "+str(bitsInHuffmanCoding)+" blockCoding: "+str(bitsInBlockCoding)
         if(bitsInBlockCoding > 0):
             return float(bitsInHuffmanCoding)/float(bitsInBlockCoding)
